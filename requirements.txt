@@ -4,7 +4,6 @@ autopep8==1.5.3
 backcall==0.1.0
 bleach==3.1.4
 colorama==0.4.3
-curses @ file:///F:/MultiServer%20File%20Donwloader_Iftikhar_Tariq/curses-2.2.1%2Butf8-cp38-cp38-win_amd64.whl
 decorator==4.4.2
 defusedxml==0.6.0
 entrypoints==0.3
