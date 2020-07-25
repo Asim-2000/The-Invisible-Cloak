@@ -2,6 +2,11 @@ import cv2
 import numpy as np
 import time
 
+## Preparation for writing the ouput video
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
+
+
 """We are replacing the red colored pixels with the background pixels to create the invisible effect in the video. For doing this, we have to store the background image for each frame."""
 #Reading from the webcam
 cap=cv2.VideoCapture(0)
@@ -46,3 +51,25 @@ while (cap.isOpened()):
 
 
     #Open and dilate the mask image
+    mask1 = cv2.morphologyEx(mask1, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    mask1 = cv2.morphologyEx(mask1, cv2.MORPH_DILATE, np.ones((3, 3), np.uint8))
+
+
+    #create an inverted mask segment segment out the red color from the frame
+    mask2=cv2.bitwise_not(mask1)
+    ## Segment the red color part out of the frame using bitwise and with the inverted mask
+    res1 = cv2.bitwise_and(image, image, mask=mask2)
+
+    ## Create image showing static background frame pixels only for the masked region
+    res2 = cv2.bitwise_and(background, background, mask=mask1)
+
+    ## Generating the final output and writing
+    finalOutput = cv2.addWeighted(res1, 1, res2, 1, 0)
+    out.write(finalOutput)
+    cv2.imshow("magic", finalOutput)
+    cv2.waitKey(1)
+
+
+cap.release()
+out.release()
+cv2.destroyAllWindows()
