@@ -43,3 +43,6 @@ while (cap.isOpened()):
     upper_red = np.array([180, 255, 255])
     mask2 = cv2.inRange(hsv, lower_red, upper_red)
     mask1 = mask1 + mask2
+
+
+    #Open and dilate the mask image
